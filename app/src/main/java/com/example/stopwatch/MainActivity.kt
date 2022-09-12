@@ -25,6 +25,13 @@ class MainActivity : AppCompatActivity() {
 
         wirewidgets()
 
+        start.setOnClickListener {
+
+        }
+
+        reset.setOnClickListener {
+
+        }
 
 
     }
