@@ -70,7 +70,6 @@ class MainActivity : AppCompatActivity() {
             else{
                 chro.base = SystemClock.elapsedRealtime()
             }
-
         }
     }
 
