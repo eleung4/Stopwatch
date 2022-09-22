@@ -10,6 +10,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Chronometer
+import com.example.stopwatch.MainActivity.Companion.STATE_TIME
 
 
 class MainActivity : AppCompatActivity() {
@@ -19,6 +20,8 @@ class MainActivity : AppCompatActivity() {
         //all your static constants go here
         val TAG = "MainActivity"
         val STATE_TIME = "display time"
+        val STATE_RUNNING = "isrunning"
+
     }
 
     lateinit var start : Button
@@ -32,8 +35,6 @@ class MainActivity : AppCompatActivity() {
 
         //preserve state through orientation changes
 
-
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -43,8 +44,24 @@ class MainActivity : AppCompatActivity() {
         if(savedInstanceState != null) {
             time = savedInstanceState.getLong(STATE_TIME)
             chro.base = SystemClock.elapsedRealtime() - time
-        }
+            if(!running) {
+                chro.base = SystemClock.elapsedRealtime()-time
+                chro.start()
+                start.text = "STOP"
+                start.setBackgroundColor(Color.RED)
+            }
+            else{
+                chro.stop()
+                start.text = "START"
+                start.setBackgroundColor(Color.rgb(87, 160, 211))
+                time = SystemClock.elapsedRealtime() - chro.base
+            }
 
+            running = !running
+            time = savedInstanceState.getLong(STATE_TIME)
+
+            
+        }
         start.setOnClickListener {
             if(!running) {
                 chro.base = SystemClock.elapsedRealtime()-time
@@ -58,18 +75,18 @@ class MainActivity : AppCompatActivity() {
                 start.setBackgroundColor(Color.rgb(87, 160, 211))
                 time = SystemClock.elapsedRealtime() - chro.base
             }
+
             running = !running
+
         }
+
         reset.setOnClickListener {
-            if (running) {
                 chro.stop()
                 start.text = "START"
                 start.setBackgroundColor(Color.rgb(87, 160, 211))
                 chro.base = SystemClock.elapsedRealtime()
-            }
-            else{
-                chro.base = SystemClock.elapsedRealtime()
-            }
+
+
         }
     }
 
